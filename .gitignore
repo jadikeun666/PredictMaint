@@ -8,3 +8,4 @@ dataset/
 venv/
 docs/
 docker-compose.yml.bak
+mosquitto/config/passwd
