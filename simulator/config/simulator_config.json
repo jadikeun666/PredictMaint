@@ -1,0 +1,48 @@
+{
+  "sensors": [
+    {
+      "machine_slug": "cwru-test-rig-1",
+      "bearing_position_label": "drive-end",
+      "sensor_axis": "RADIAL",
+      "source_dataset": "CWRU",
+      "mqtt_topic_vibration": "factory/cwru-test-rig-1/drive-end/vibration",
+      "mqtt_topic_status": "factory/cwru-test-rig-1/drive-end/status",
+      "sample_rate_hz": 48000,
+      "sample_rate_source_note": "Tidak ada key sample-rate eksplisit di dalam .mat file manapun (dikonfirmasi via inspeksi keys). Nilai 48000 diturunkan dari nama folder dataset 'CWRU_48k_load_1_CNN_data' — satu-satunya sumber yang tersedia.",
+      "dataset_root": "/mnt/c/libursem4/PredictMaint/dataset/CWRU_48k_load_1_CNN_data/raw",
+      "mat_channel_key_pattern": "X{id}_DE_time",
+      "mat_rpm_key_pattern": "X{id}RPM",
+      "healthy": {
+        "file": "Time_Normal_1_098.mat",
+        "mat_id": "098",
+        "nominal_rpm": 1772,
+        "rpm_source_note": "File .mat healthy TIDAK memiliki key RPM sendiri (dikonfirmasi via inspeksi keys — hanya X098_DE_time, X098_FE_time). Nilai 1772 diturunkan dari RPM file fault load_1 lain (B007/IR007, sama-sama 1772) dengan asumsi kondisi load motor identik di load_1. INI ASUMSI TEKNIS, bukan nilai terbaca langsung dari file healthy itu sendiri."
+      },
+      "faults": {
+        "BALL": {
+          "file": "B007_1_123.mat",
+          "mat_id": "123",
+          "nominal_rpm": 1772,
+          "rpm_source_note": "Dibaca langsung dari key X123RPM di dalam file .mat"
+        },
+        "INNER_RACE": {
+          "file": "IR007_1_110.mat",
+          "mat_id": "110",
+          "nominal_rpm": 1772,
+          "rpm_source_note": "Dibaca langsung dari key X110RPM di dalam file .mat"
+        },
+        "OUTER_RACE": {
+          "file": "OR007_6_1_136.mat",
+          "mat_id": "136",
+          "nominal_rpm": 1774,
+          "rpm_source_note": "Dibaca langsung dari key X136RPM di dalam file .mat"
+        }
+      },
+      "fault_dataset_files_alt_severity": {
+        "BALL": ["B014_1_190.mat", "B021_1_227.mat"],
+        "INNER_RACE": ["IR014_1_175.mat", "IR021_1_214.mat"],
+        "OUTER_RACE": ["OR014_6_1_202.mat", "OR021_6_1_239.mat"]
+      }
+    }
+  ]
+}

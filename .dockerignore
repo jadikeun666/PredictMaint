@@ -1,0 +1,6 @@
+backend/venv/
+**/__pycache__/
+**/*.pyc
+.git/
+mosquitto/data/
+mosquitto/log/
