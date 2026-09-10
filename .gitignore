@@ -5,3 +5,6 @@ __pycache__/
 raw-waveforms/
 *.npy
 dataset/
+venv/
+docs/
+docker-compose.yml.bak
