@@ -1,0 +1,240 @@
+[
+  {
+    "model_version": "rf-baseline-cwru-v1.0",
+    "model_type": "CLASSIFICATION",
+    "training_dataset": "CWRU",
+    "training_dataset_version_hash": "57623908514597c43bee1398c4c59992fe21da3aa5d3b0a97d96bf9105d1524d",
+    "eval_accuracy": 0.8621978021978023,
+    "eval_accuracy_std": 0.11997584589657705,
+    "eval_macro_f1": 0.8613664704090237,
+    "eval_macro_f1_std": 0.13154814984176516,
+    "eval_date": "2026-09-11",
+    "artifact_path": "/app/ml_artifacts/rf-baseline-cwru-v1.0/model.joblib",
+    "feature_order": [
+      "rms",
+      "kurtosis",
+      "crest_factor",
+      "skewness",
+      "bpfo_amp",
+      "bpfi_amp",
+      "bsf_amp",
+      "ftf_amp",
+      "dominant_freq_hz"
+    ],
+    "label_classes": [
+      "BALL",
+      "HEALTHY",
+      "INNER_RACE",
+      "OUTER_RACE"
+    ],
+    "n_training_windows": 342,
+    "n_training_files": 39,
+    "cv_fold_details": [
+      {
+        "fold": 1,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 275,
+        "n_test": 67,
+        "test_groups": [
+          "B014_2_191.mat",
+          "B021_2_228.mat",
+          "IR014_1_175.mat",
+          "IR021_3_217.mat",
+          "OR007_6_2_137.mat",
+          "OR021_6_2_240.mat",
+          "Time_Normal_2_099.mat"
+        ]
+      },
+      {
+        "fold": 2,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B014_1_190.mat",
+          "B014_3_192.mat",
+          "IR007_0_109.mat",
+          "IR021_0_213.mat",
+          "IR021_2_215.mat",
+          "OR007_6_1_136.mat",
+          "OR021_6_3_241.mat",
+          "Time_Normal_1_098.mat"
+        ]
+      },
+      {
+        "fold": 3,
+        "accuracy": 0.8428571428571429,
+        "macro_f1": 0.8782609234736893,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B007_2_124.mat",
+          "B021_1_227.mat",
+          "IR007_1_110.mat",
+          "IR014_3_177.mat",
+          "OR014_6_1_202.mat",
+          "OR021_6_0_238.mat",
+          "OR021_6_1_239.mat",
+          "Time_Normal_0_097.mat"
+        ]
+      },
+      {
+        "fold": 4,
+        "accuracy": 0.7142857142857143,
+        "macro_f1": 0.6666666666666666,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B014_0_189.mat",
+          "B021_0_226.mat",
+          "B021_3_229.mat",
+          "IR007_3_112.mat",
+          "IR021_1_214.mat",
+          "OR014_6_2_203.mat",
+          "OR014_6_3_204.mat",
+          "Time_Normal_3_100.mat"
+        ]
+      },
+      {
+        "fold": 5,
+        "accuracy": 0.7538461538461538,
+        "macro_f1": 0.7619047619047619,
+        "n_train": 277,
+        "n_test": 65,
+        "test_groups": [
+          "B007_0_122.mat",
+          "B007_1_123.mat",
+          "B007_3_125.mat",
+          "IR007_2_111.mat",
+          "IR014_2_176.mat",
+          "OR007_6_0_135.mat",
+          "OR007_6_3_138.mat",
+          "OR014_6_0_201.mat"
+        ]
+      }
+    ],
+    "cross_dataset_pu_accuracy": null,
+    "trained_at": "2026-09-11T03:42:56.607792+00:00"
+  },
+  {
+    "model_version": "rf-baseline-cwru-v1.0",
+    "model_type": "CLASSIFICATION",
+    "training_dataset": "CWRU",
+    "training_dataset_version_hash": "57623908514597c43bee1398c4c59992fe21da3aa5d3b0a97d96bf9105d1524d",
+    "eval_accuracy": 0.8621978021978023,
+    "eval_accuracy_std": 0.11997584589657705,
+    "eval_macro_f1": 0.8613664704090237,
+    "eval_macro_f1_std": 0.13154814984176516,
+    "eval_date": "2026-09-11",
+    "artifact_path": "/app/ml_artifacts/rf-baseline-cwru-v1.0/model.joblib",
+    "feature_order": [
+      "rms",
+      "kurtosis",
+      "crest_factor",
+      "skewness",
+      "bpfo_amp",
+      "bpfi_amp",
+      "bsf_amp",
+      "ftf_amp",
+      "dominant_freq_hz"
+    ],
+    "label_classes": [
+      "BALL",
+      "HEALTHY",
+      "INNER_RACE",
+      "OUTER_RACE"
+    ],
+    "n_training_windows": 342,
+    "n_training_files": 39,
+    "cv_fold_details": [
+      {
+        "fold": 1,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 275,
+        "n_test": 67,
+        "test_groups": [
+          "B014_2_191.mat",
+          "B021_2_228.mat",
+          "IR014_1_175.mat",
+          "IR021_3_217.mat",
+          "OR007_6_2_137.mat",
+          "OR021_6_2_240.mat",
+          "Time_Normal_2_099.mat"
+        ]
+      },
+      {
+        "fold": 2,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B014_1_190.mat",
+          "B014_3_192.mat",
+          "IR007_0_109.mat",
+          "IR021_0_213.mat",
+          "IR021_2_215.mat",
+          "OR007_6_1_136.mat",
+          "OR021_6_3_241.mat",
+          "Time_Normal_1_098.mat"
+        ]
+      },
+      {
+        "fold": 3,
+        "accuracy": 0.8428571428571429,
+        "macro_f1": 0.8782609234736893,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B007_2_124.mat",
+          "B021_1_227.mat",
+          "IR007_1_110.mat",
+          "IR014_3_177.mat",
+          "OR014_6_1_202.mat",
+          "OR021_6_0_238.mat",
+          "OR021_6_1_239.mat",
+          "Time_Normal_0_097.mat"
+        ]
+      },
+      {
+        "fold": 4,
+        "accuracy": 0.7142857142857143,
+        "macro_f1": 0.6666666666666666,
+        "n_train": 272,
+        "n_test": 70,
+        "test_groups": [
+          "B014_0_189.mat",
+          "B021_0_226.mat",
+          "B021_3_229.mat",
+          "IR007_3_112.mat",
+          "IR021_1_214.mat",
+          "OR014_6_2_203.mat",
+          "OR014_6_3_204.mat",
+          "Time_Normal_3_100.mat"
+        ]
+      },
+      {
+        "fold": 5,
+        "accuracy": 0.7538461538461538,
+        "macro_f1": 0.7619047619047619,
+        "n_train": 277,
+        "n_test": 65,
+        "test_groups": [
+          "B007_0_122.mat",
+          "B007_1_123.mat",
+          "B007_3_125.mat",
+          "IR007_2_111.mat",
+          "IR014_2_176.mat",
+          "OR007_6_0_135.mat",
+          "OR007_6_3_138.mat",
+          "OR014_6_0_201.mat"
+        ]
+      }
+    ],
+    "cross_dataset_pu_accuracy": null,
+    "trained_at": "2026-09-11T03:44:48.240853+00:00"
+  }
+]
