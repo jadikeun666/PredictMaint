@@ -9,3 +9,4 @@ venv/
 docs/
 docker-compose.yml.bak
 mosquitto/config/passwd
+backend/ml_artifacts/
