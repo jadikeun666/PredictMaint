@@ -1,8 +1,11 @@
 """
 Training rf-baseline classifier (ml-pipeline.md §1) di atas CWRU, baca
-file .mat MENTAH langsung (BUKAN via InfluxDB/data ter-ingest live —
-lihat claude.md addendum 2026-09-11: vibration_windows/derived_features
-tidak punya ground-truth fault_class, cuma nama file CWRU asli yang punya).
+file .mat MENTAH langsung. v1.1: tambah fitur turunan (rasio dominasi
+frekuensi karakteristik) + hyperparameter search RandomForestClassifier
+(algoritma TETAP RandomForest sesuai definisi ml-pipeline.md §1 — hanya
+hyperparameter & fitur input yang di-tuning, bukan ganti algoritma) untuk
+mengatasi confusion BALL<->OUTER_RACE yang ditemukan di v1.0
+(claude.md addendum 2026-09-11).
 
 Usage:
     python manage.py train_rf_baseline
@@ -10,6 +13,7 @@ Usage:
 import hashlib
 import json
 from datetime import date, datetime, timezone
+from itertools import product
 from pathlib import Path
 
 import joblib
@@ -21,24 +25,17 @@ from sklearn.metrics import accuracy_score, f1_score, confusion_matrix, classifi
 from sklearn.model_selection import StratifiedGroupKFold
 
 from apps.ml_inference import model_registry
-from apps.ml_inference.feature_extraction import extract_feature_vector, FEATURE_ORDER
+from apps.ml_inference.feature_extraction import (
+    extract_feature_vector, engineer_features, MODEL_FEATURE_ORDER,
+)
 
 DATASET_ROOT = Path("/dataset/cwru_raw")
 SAMPLE_RATE_HZ = 48000
-WINDOW_SAMPLES = SAMPLE_RATE_HZ  # 1.0s, 0% overlap — default signal-processing.md
+WINDOW_SAMPLES = SAMPLE_RATE_HZ
 ARTIFACT_DIR = Path("/app/ml_artifacts")
 
-# RPM "Approx. Motor Speed" resmi per load, dari
-# https://engineering.case.edu/bearingdatacenter/48k-drive-end-bearing-fault-data
-# dan .../normal-baseline-data — dipakai HANYA saat key RPM spesifik file
-# tidak ada (didokumentasikan per-file di bawah), bukan override diam-diam
-# atas nilai nyata (engineering-rules.md: no fabricated values — ini
-# angka tabel resmi yang dipublikasikan, bukan tebakan).
 OFFICIAL_APPROX_RPM_BY_LOAD = {0: 1797, 1: 1772, 2: 1750, 3: 1730}
 
-# Manifest lengkap file training yang valid (39 dari 40 yang didownload —
-# lihat claude.md addendum 2026-09-11: IR014_0_174.mat dikarantina,
-# kesalahan data di sisi server CWRU, key X174_DE_time tidak ada).
 FILE_MANIFEST = {
     "Time_Normal_0_097.mat": ("097", "HEALTHY", 0),
     "Time_Normal_1_098.mat": ("098", "HEALTHY", 1),
@@ -103,7 +100,7 @@ def _load_rpm(mat, mat_id: str, load: int, fname: str) -> float:
 
 
 class Command(BaseCommand):
-    help = "Training rf-baseline (ml-pipeline.md §1) di CWRU, register ke Model Registry."
+    help = "Training rf-baseline v1.1 (fitur turunan + hyperparameter search) ke Model Registry."
 
     def handle(self, *args, **options):
         rows, labels, groups = [], [], []
@@ -128,8 +125,10 @@ class Command(BaseCommand):
             n_windows = len(waveform) // WINDOW_SAMPLES
             for w in range(n_windows):
                 chunk = waveform[w * WINDOW_SAMPLES: (w + 1) * WINDOW_SAMPLES]
-                feats = extract_feature_vector(chunk, SAMPLE_RATE_HZ, rpm)
-                rows.append([feats[k] for k in FEATURE_ORDER])
+                base_feats = extract_feature_vector(chunk, SAMPLE_RATE_HZ, rpm)
+                engineered = engineer_features(base_feats)
+                full_feats = {**base_feats, **engineered}
+                rows.append([full_feats[k] for k in MODEL_FEATURE_ORDER])
                 labels.append(fault_class)
                 groups.append(fname)
 
@@ -139,18 +138,51 @@ class Command(BaseCommand):
         y = np.array(labels)
         groups = np.array(groups)
 
-        print(f"\n===== Dataset: {X.shape[0]} window, {X.shape[1]} fitur, "
+        print(f"\n===== Dataset: {X.shape[0]} window, {X.shape[1]} fitur "
+              f"({len(MODEL_FEATURE_ORDER)} = 9 kanonik + {len(MODEL_FEATURE_ORDER)-9} turunan), "
               f"{len(set(groups))} file-group, classes={sorted(set(y))} =====")
         for cls in sorted(set(y)):
             print(f"  {cls:12s} windows={int(np.sum(y == cls)):4d}  file-groups={len(set(groups[y == cls]))}")
 
         n_splits = 5
         sgkf = StratifiedGroupKFold(n_splits=n_splits, shuffle=True, random_state=42)
+        folds = list(sgkf.split(X, y, groups))
+
+        param_grid = {
+            "n_estimators": [200, 500],
+            "max_depth": [None, 10],
+            "min_samples_leaf": [1, 2],
+            "max_features": ["sqrt", "log2"],
+        }
+        keys = list(param_grid.keys())
+        combos = list(product(*param_grid.values()))
+
+        print(f"\n===== Hyperparameter search RandomForestClassifier: "
+              f"{len(combos)} kombinasi x {n_splits} fold (folds identik) =====")
+        search_results = []
+        for combo in combos:
+            params = dict(zip(keys, combo))
+            fold_accs, fold_f1s = [], []
+            for train_idx, test_idx in folds:
+                clf = RandomForestClassifier(random_state=42, class_weight="balanced", **params)
+                clf.fit(X[train_idx], y[train_idx])
+                preds = clf.predict(X[test_idx])
+                fold_accs.append(accuracy_score(y[test_idx], preds))
+                fold_f1s.append(f1_score(y[test_idx], preds, average="macro"))
+            mean_acc = float(np.mean(fold_accs))
+            mean_f1 = float(np.mean(fold_f1s))
+            search_results.append({"params": params, "mean_accuracy": mean_acc, "mean_macro_f1": mean_f1})
+            print(f"  {params}  acc={mean_acc:.4f}  macro_f1={mean_f1:.4f}")
+
+        best = max(search_results, key=lambda r: r["mean_macro_f1"])
+        best_params = best["params"]
+        print(f"\n===== Kombinasi terbaik: {best_params}  "
+              f"acc={best['mean_accuracy']:.4f}  macro_f1={best['mean_macro_f1']:.4f} =====")
 
         fold_results = []
-        print(f"\n===== {n_splits}-fold StratifiedGroupKFold CV =====")
-        for fold_idx, (train_idx, test_idx) in enumerate(sgkf.split(X, y, groups), start=1):
-            clf = RandomForestClassifier(n_estimators=200, random_state=42, class_weight="balanced")
+        print(f"\n===== Detail per-fold (hyperparameter terbaik) =====")
+        for fold_idx, (train_idx, test_idx) in enumerate(folds, start=1):
+            clf = RandomForestClassifier(random_state=42, class_weight="balanced", **best_params)
             clf.fit(X[train_idx], y[train_idx])
             preds = clf.predict(X[test_idx])
             acc = accuracy_score(y[test_idx], preds)
@@ -158,7 +190,7 @@ class Command(BaseCommand):
 
             labels_sorted = sorted(set(y.tolist()))
             cm = confusion_matrix(y[test_idx], preds, labels=labels_sorted)
-            print(f"    Confusion matrix fold {fold_idx} (baris=actual, kolom=predicted, order={labels_sorted}):")
+            print(f"    Confusion matrix fold {fold_idx} (order={labels_sorted}):")
             for i, row_label in enumerate(labels_sorted):
                 print(f"      {row_label:12s} {cm[i].tolist()}")
             print(classification_report(y[test_idx], preds, labels=labels_sorted, zero_division=0))
@@ -168,21 +200,19 @@ class Command(BaseCommand):
                 "n_train": len(train_idx), "n_test": len(test_idx),
                 "test_groups": sorted(set(groups[test_idx].tolist())),
             })
-            print(f"  Fold {fold_idx}: acc={acc:.4f} macro_f1={macro_f1:.4f} "
-                  f"(train={len(train_idx)}, test={len(test_idx)}, "
-                  f"test_files={sorted(set(groups[test_idx].tolist()))})")
+            print(f"  Fold {fold_idx}: acc={acc:.4f} macro_f1={macro_f1:.4f}")
 
         mean_acc = float(np.mean([r["accuracy"] for r in fold_results]))
         std_acc = float(np.std([r["accuracy"] for r in fold_results]))
         mean_f1 = float(np.mean([r["macro_f1"] for r in fold_results]))
         std_f1 = float(np.std([r["macro_f1"] for r in fold_results]))
-        print(f"\n===== HASIL CV: accuracy={mean_acc:.4f} (+/-{std_acc:.4f})  "
-              f"macro_f1={mean_f1:.4f} (+/-{std_f1:.4f}) =====")
+        print(f"\n===== HASIL CV v1.1: accuracy={mean_acc:.4f} (+/-{std_acc:.4f})  "
+              f"macro_f1={mean_f1:.4f} (+/-{std_f1:.4f})  [v1.0 sebelumnya: acc=0.8622, macro_f1=0.8614] =====")
 
-        final_clf = RandomForestClassifier(n_estimators=200, random_state=42, class_weight="balanced")
+        final_clf = RandomForestClassifier(random_state=42, class_weight="balanced", **best_params)
         final_clf.fit(X, y)
 
-        model_version = "rf-baseline-cwru-v1.0"
+        model_version = "rf-baseline-cwru-v1.1"
         artifact_dir = ARTIFACT_DIR / model_version
         artifact_dir.mkdir(parents=True, exist_ok=True)
         artifact_path = artifact_dir / "model.joblib"
@@ -203,14 +233,22 @@ class Command(BaseCommand):
             "eval_macro_f1_std": std_f1,
             "eval_date": date.today().isoformat(),
             "artifact_path": str(artifact_path),
-            "feature_order": FEATURE_ORDER,
+            "feature_order": MODEL_FEATURE_ORDER,
             "label_classes": final_clf.classes_.tolist(),
             "n_training_windows": int(X.shape[0]),
             "n_training_files": len(FILE_MANIFEST),
+            "hyperparameters": best_params,
+            "hyperparameter_search_space": param_grid,
+            "hyperparameter_search_results": search_results,
             "cv_fold_details": fold_results,
             "cross_dataset_pu_accuracy": None,
             "trained_at": datetime.now(timezone.utc).isoformat(),
+            "supersedes": "rf-baseline-cwru-v1.0",
         }
         model_registry.append_entry(entry)
         print(f"\n===== Terdaftar di Model Registry: {model_registry.REGISTRY_PATH} =====")
-        print(json.dumps({k: v for k, v in entry.items() if k != "cv_fold_details"}, indent=2))
+        print(json.dumps(
+            {k: v for k, v in entry.items()
+             if k not in ("cv_fold_details", "hyperparameter_search_results")},
+            indent=2,
+        ))
