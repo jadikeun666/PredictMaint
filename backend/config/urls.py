@@ -15,4 +15,5 @@ urlpatterns = [
     path("api/v1/", include("apps.scheduling.urls")),
     path("api/v1/", include("apps.inventory.urls")),
     path("api/v1/", include("apps.registry.urls")),
+    path("api/v1/", include("apps.scheduling.gantt_urls")),
 ]
