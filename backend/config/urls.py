@@ -16,4 +16,6 @@ urlpatterns = [
     path("api/v1/", include("apps.inventory.urls")),
     path("api/v1/", include("apps.registry.urls")),
     path("api/v1/", include("apps.scheduling.gantt_urls")),
+    path("api/v1/", include("apps.alerting.urls")),
+    path("api/v1/", include("apps.ml_inference.urls")),
 ]
