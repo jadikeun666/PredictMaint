@@ -156,3 +156,6 @@ MQTT_BROKER_HOST = os.environ.get("MQTT_BROKER_HOST", "mqtt-broker")
 MQTT_BROKER_PORT = os.environ.get("MQTT_BROKER_PORT", "1883")
 MQTT_BROKER_USERNAME = os.environ.get("MQTT_BROKER_USERNAME", "")
 MQTT_BROKER_PASSWORD = os.environ.get("MQTT_BROKER_PASSWORD", "")
+
+# RFC7807 untuk semua error DRF (config/exception_handler.py)
+REST_FRAMEWORK["EXCEPTION_HANDLER"] = "config.exception_handler.problem_exception_handler"

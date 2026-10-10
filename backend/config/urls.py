@@ -19,3 +19,6 @@ urlpatterns = [
     path("api/v1/", include("apps.alerting.urls")),
     path("api/v1/", include("apps.ml_inference.urls")),
 ]
+
+# 404 JSON untuk path /api/ (hanya saat DEBUG=False); path lain tetap bawaan Django
+handler404 = "config.exception_handler.api_not_found"
