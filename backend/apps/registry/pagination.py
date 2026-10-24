@@ -10,7 +10,9 @@ from rest_framework.pagination import CursorPagination
 
 
 class CreatedAtCursorPagination(CursorPagination):
-    ordering = "-created_at"
+    # Urutan sekunder "-id" WAJIB: tanpa itu baris ber-timestamp sama berurutan acak antar halaman
+    # (duplikat/terlewat). DRF memakai ordering[0] sebagai posisi cursor; sisanya menstabilkan urutan.
+    ordering = ("-created_at", "-id")
 
 
 class IdCursorPagination(CursorPagination):
