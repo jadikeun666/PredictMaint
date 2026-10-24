@@ -60,3 +60,10 @@ zopfli==0.4.3
 # --- NOT YET INSTALLED, NOT IN pip-cache — download when online ---
 # daphne>=4.1  (ASGI server for django-channels service in docker-compose.yml)
 influxdb-client==1.50.0
+
+# --- matplotlib (grafik RUL PDF, exports.md §2.4); wheel ada di pip-cache ---
+contourpy==1.3.3
+cycler==0.12.1
+kiwisolver==1.5.0
+matplotlib==3.11.1
+pyparsing==3.3.2

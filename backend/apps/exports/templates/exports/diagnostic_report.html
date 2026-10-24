@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<title>Laporan Diagnostik — {{ machine.name }} / {{ bearing.position_label }}</title>
+<style>
+  @page { size: A4; margin: 16mm 13mm 18mm 13mm;
+          @bottom-center { content: "Halaman " counter(page) " dari " counter(pages); font-size: 8pt; color: #666; } }
+  body { font-family: "DejaVu Sans", sans-serif; font-size: 8.8pt; color: #222; }
+  h1 { font-size: 16pt; margin: 0 0 3pt; }
+  h2 { font-size: 10.5pt; margin: 15pt 0 4pt; padding-bottom: 2pt; border-bottom: 1px solid #888; }
+  table { border-collapse: collapse; width: 100%; margin-top: 3pt; }
+  th, td { border: 1px solid #bbb; padding: 2.5pt 4pt; text-align: left; vertical-align: top; }
+  th { background: #eee; }
+  tr { page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  table.meta td { border: none; padding: 1pt 8pt 1pt 0; }
+  table.meta td:first-child { color: #555; width: 32%; }
+  table.panel td { width: 50%; border: 1px solid #999; padding: 6pt 8pt; }
+  .big { font-size: 15pt; font-weight: bold; margin: 2pt 0; }
+  .muted { color: #666; }
+  .note { color: #8a5a00; margin-top: 3pt; }
+  img.chart { width: 100%; margin-top: 4pt; }
+  .footnote { font-size: 8pt; color: #444; margin-top: 4pt; }
+</style>
+</head>
+<body>
+
+<h1>Laporan Diagnostik Bearing</h1>
+<table class="meta">
+  <tr><td>Mesin</td><td>{{ machine.name }}</td></tr>
+  <tr><td>Bearing</td><td>{{ bearing.position_label }} — {{ bearing.bearing_model }}</td></tr>
+  <tr><td>Rentang data</td><td>{{ start_text }} s/d {{ end_text }} (akhir eksklusif)</td></tr>
+  <tr><td>Laporan dibuat</td><td>{{ generated_text }}</td></tr>
+  <tr><td>Dibuat oleh</td><td>{{ generated_by }}</td></tr>
+</table>
+
+<h2>1. Ringkasan kondisi terkini</h2>
+<p class="muted">Prediksi terbaru per saat laporan dibuat (tidak dibatasi rentang data di atas).</p>
+<table class="panel"><tr>
+  <td>
+    <div class="muted">Klasifikasi fault</div>
+    {% if latest_cls %}
+      <div class="big">{{ latest_cls.fault_class }}</div>
+      <div>Confidence: {{ latest_cls.confidence }}</div>
+      <div class="muted">{{ latest_cls.at }} · {{ latest_cls.model_version }}</div>
+    {% else %}
+      <div class="big">—</div><div class="muted">Belum ada prediksi klasifikasi.</div>
+    {% endif %}
+  </td>
+  <td>
+    <div class="muted">Sisa umur pakai (RUL)</div>
+    {% if latest_rul %}
+      <div class="big">{{ latest_rul.hours }} jam</div>
+      <div>Pita kepercayaan: {{ latest_rul.low }} – {{ latest_rul.high }} jam</div>
+      <div class="muted">{{ latest_rul.at }} · {{ latest_rul.model_version }}</div>
+    {% else %}
+      <div class="big">—</div><div class="muted">Belum ada prediksi RUL (riwayat fitur belum cukup atau model RUL belum tersedia).</div>
+    {% endif %}
+  </td>
+</tr></table>
+
+<h2>2. Riwayat fault dalam rentang</h2>
+<p>Prediksi klasifikasi dalam rentang: <b>{{ class_total }}</b>, di antaranya bukan HEALTHY: <b>{{ fault_total }}</b>.</p>
+{% if fault_rows %}
+<table>
+  <thead><tr><th>Waktu prediksi</th><th>Kelas</th><th>Confidence</th></tr></thead>
+  <tbody>
+  {% for r in fault_rows %}<tr><td>{{ r.at }}</td><td>{{ r.fault_class }}</td><td>{{ r.confidence }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% if fault_truncated %}<p class="note">Tabel dibatasi {{ max_rows }} baris terbaru dari {{ fault_total }}.</p>{% endif %}
+{% else %}
+<p class="muted">Tidak ada prediksi non-HEALTHY dalam rentang ini.</p>
+{% endif %}
+
+<h2>3. Tren RUL</h2>
+{% if chart %}
+  <img class="chart" src="{{ chart }}" alt="Grafik tren RUL">
+  <p class="muted">{{ rul_count }} titik prediksi RUL dalam rentang (sumber: InfluxDB predictions_ts, query yang sama dengan dashboard).</p>
+  {% if rul_truncated %}<p class="note">Titik lebih lama dari yang tampak dipotong oleh batas jumlah titik; persempit rentang untuk melihatnya.</p>{% endif %}
+{% elif rul_error %}
+  <p class="note">{{ rul_error }}</p>
+{% else %}
+  <p class="muted">Belum ada prediksi RUL pada rentang ini.</p>
+{% endif %}
+
+<h2>4. Alert dan work order terkait</h2>
+<p><b>Alert</b> (dipicu dalam rentang): {{ alert_total }}</p>
+{% if alert_rows %}
+<table>
+  <thead><tr><th>Jenis</th><th>Severity</th><th>Dipicu</th><th>Terakhir terlihat</th><th>Status</th></tr></thead>
+  <tbody>
+  {% for a in alert_rows %}<tr><td>{{ a.alert_type }}</td><td>{{ a.severity }}</td><td>{{ a.triggered_at }}</td><td>{{ a.last_seen_at }}</td><td>{{ a.resolution }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% if alert_truncated %}<p class="note">Tabel dibatasi {{ max_rows }} baris dari {{ alert_total }}.</p>{% endif %}
+{% endif %}
+<p><b>Work order</b> (dibuat dalam rentang): {{ wo_total }}</p>
+{% if wo_rows %}
+<table>
+  <thead><tr><th>ID</th><th>Status</th><th>Prioritas</th><th>Jadwal</th><th>Selesai aktual</th><th>Catatan</th></tr></thead>
+  <tbody>
+  {% for w in wo_rows %}<tr><td>{{ w.short_id }}</td><td>{{ w.status }}</td><td>{{ w.priority }}</td><td>{{ w.scheduled }}</td><td>{{ w.actual_end }}</td><td>{{ w.notes }}</td></tr>{% endfor %}
+  </tbody>
+</table>
+{% if wo_truncated %}<p class="note">Tabel dibatasi {{ max_rows }} baris dari {{ wo_total }}.</p>{% endif %}
+{% endif %}
+
+<h2>5. Asal angka (model)</h2>
+<p class="footnote">Angka prediksi pada laporan ini dihasilkan oleh versi model:
+{% for v in model_versions %}<b>{{ v }}</b>{% if not forloop.last %}, {% endif %}{% empty %}— (tidak ada prediksi pada rentang){% endfor %}.
+Detail evaluasi tiap versi ada di Model Registry.</p>
+
+</body>
+</html>
