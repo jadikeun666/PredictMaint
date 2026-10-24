@@ -18,6 +18,10 @@ urlpatterns = [
     path("api/v1/", include("apps.scheduling.gantt_urls")),
     path("api/v1/", include("apps.alerting.urls")),
     path("api/v1/", include("apps.ml_inference.urls")),
+    path("api/v1/", include("apps.accounts.api_urls")),
+    path("api/v1/", include("apps.ingestion.api_urls")),
+    path("api/v1/", include("apps.registry.timeseries_urls")),
+    path("api/v1/", include("apps.exports.urls")),
 ]
 
 # 404 JSON untuk path /api/ (hanya saat DEBUG=False); path lain tetap bawaan Django
