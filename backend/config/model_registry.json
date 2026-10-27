@@ -548,5 +548,449 @@
     "cross_dataset_pu_accuracy": null,
     "trained_at": "2026-09-13T19:20:12.025543+00:00",
     "supersedes": "rf-baseline-cwru-v1.0"
+  },
+  {
+    "model_version": "lstm-rul-ims-v1.0",
+    "model_type": "RUL",
+    "training_dataset": "IMS",
+    "training_dataset_version_hash": "f520832a9b0d03180928d73f06cf16517bfbe262ab7e2f70b4f5e9d5a8a2a36e",
+    "eval_accuracy": null,
+    "eval_mae_hours": 233.07242308692867,
+    "eval_mae_hours_std_across_trajectories": 53.91377948655323,
+    "eval_rmse_hours": 303.33847427063085,
+    "eval_mae_last10pct_hours": 49.76221960850628,
+    "eval_bias_hours_mean": -112.90458619338398,
+    "eval_phm_score_mean": 2.1513503177671568e+21,
+    "eval_protocol": "leave-one-trajectory-out (skema 'loto'), 3 seed; skema tambahan di eval_schemes",
+    "eval_date": "2026-10-27",
+    "artifact_path": "/app/ml_artifacts/lstm-rul-ims-v1.0/model.pt",
+    "trained_at": "2026-10-27T07:43:10+00:00",
+    "rul_confidence_band_hours": 303.33847427063085,
+    "rul_confidence_band_note": "\u00b1 RMSE eval-set (rata-rata LOTO); proksi sederhana, bukan interval Bayesian",
+    "feature_order": [
+      "rms",
+      "kurtosis",
+      "crest_factor",
+      "skewness",
+      "bpfo_amp",
+      "bpfi_amp",
+      "bsf_amp",
+      "ftf_amp",
+      "dominant_freq_hz"
+    ],
+    "seq_len": 6,
+    "feature_transform": "signed_log1p lalu z-score (scaler dari semua lintasan latih)",
+    "scaler_mean": [
+      0.0827390194192026,
+      0.41766961021659066,
+      1.8615145164755915,
+      0.003436296916344535,
+      3.1694035976036457,
+      3.10805726942978,
+      2.9346610130666613,
+      3.4452845733290447,
+      6.7025399697034596
+    ],
+    "scaler_std": [
+      0.03141524159148455,
+      0.5026386209097364,
+      0.23926610612248908,
+      0.07533734535332033,
+      0.5817736514569617,
+      0.5604705414645614,
+      0.4880798708330292,
+      1.0707323970168443,
+      0.6635181479212293
+    ],
+    "target_transform": "log1p(RUL jam), distandardisasi; inverse expm1, dipotong >= 0",
+    "target_mu": 5.613898116671595,
+    "target_sd": 1.1027515204444365,
+    "hyperparameters": {
+      "hidden": 32,
+      "layers": 1,
+      "epochs": 40,
+      "batch": 128,
+      "lr": 0.001,
+      "weight_decay": 0.0001
+    },
+    "final_fit_seed": 11,
+    "eval_seeds": [
+      11,
+      22,
+      33
+    ],
+    "n_training_windows": 11597,
+    "n_training_files": 11617,
+    "n_training_trajectories": 4,
+    "n_training_files_note": "dihitung per lintasan; file Set 1 dipakai dua kali (bearing 3 dan 4)",
+    "cv_fold_details": [
+      {
+        "test_traj": "IMS-S1-B3",
+        "traj_hours": 827.5588888888889,
+        "lstm": {
+          "mae": 293.9367153825665,
+          "rmse": 373.838781694745,
+          "phm": 147.03337935825638,
+          "mae_last10pct": 30.44563844805737,
+          "bias": -285.520019984031,
+          "mae_seed_std": 1.3508150071747214
+        },
+        "baselines_mae": {
+          "const": 235.64992712027444,
+          "hi_extrap": 267.3696840932366,
+          "ridge": 214.89230852409116
+        }
+      },
+      {
+        "test_traj": "IMS-S1-B4",
+        "traj_hours": 827.5588888888889,
+        "lstm": {
+          "mae": 174.855112696392,
+          "rmse": 242.21363093167778,
+          "phm": 19.887245186220312,
+          "mae_last10pct": 21.17721696823149,
+          "bias": -150.73739122305108,
+          "mae_seed_std": 15.43412731048896
+        },
+        "baselines_mae": {
+          "const": 235.64992712027444,
+          "hi_extrap": 300.97307789362156,
+          "ridge": 238.03921649102384
+        }
+      },
+      {
+        "test_traj": "IMS-S2-B1",
+        "traj_hours": 163.83333333333334,
+        "lstm": {
+          "mae": 184.15921732256788,
+          "rmse": 248.03292357323133,
+          "phm": 8.605401271068627e+21,
+          "mae_last10pct": 24.41999004938083,
+          "bias": 182.2393131280094,
+          "mae_seed_std": 34.38740962384054
+        },
+        "baselines_mae": {
+          "const": 366.87233158334635,
+          "hi_extrap": 480.7422375515751,
+          "ridge": 138.5155065966241
+        }
+      },
+      {
+        "test_traj": "IMS-S3-B3",
+        "traj_hours": 1073.2525,
+        "lstm": {
+          "mae": 279.33864694618836,
+          "rmse": 349.2685608828692,
+          "phm": 28.92950341281889,
+          "mae_last10pct": 123.00603296835543,
+          "bias": -197.6002466944632,
+          "mae_seed_std": 22.531853209197532
+        },
+        "baselines_mae": {
+          "const": 331.809552606914,
+          "hi_extrap": 321.60402047831695,
+          "ridge": 453.6976754823735
+        }
+      }
+    ],
+    "eval_schemes": {
+      "loto": {
+        "n_test_trajectories": 4,
+        "methods": {
+          "const": {
+            "mae": {
+              "mean": 292.4954346077023,
+              "std": 58.181496458899936
+            },
+            "rmse": {
+              "mean": 326.386317350703,
+              "std": 62.92558933265237
+            },
+            "phm": {
+              "mean": 19229143990.052086,
+              "std": 33305854314.49307
+            },
+            "mae_last10pct": {
+              "mean": 361.3537693800017,
+              "std": 83.1922137378642
+            },
+            "bias": {
+              "mean": 87.77326530301978,
+              "std": 225.68085266175183
+            }
+          },
+          "hi_extrap": {
+            "mae": {
+              "mean": 342.67225500418755,
+              "std": 82.03122750539903
+            },
+            "rmse": {
+              "mean": 421.5688759718622,
+              "std": 82.49612909612767
+            },
+            "phm": {
+              "mean": 3.1392231842150803e+25,
+              "std": 5.4372940513586726e+25
+            },
+            "mae_last10pct": {
+              "mean": 310.4766608932174,
+              "std": 85.53660178323207
+            },
+            "bias": {
+              "mean": 200.03849480443483,
+              "std": 188.83557790439716
+            }
+          },
+          "ridge": {
+            "mae": {
+              "mean": 261.28617677352815,
+              "std": 117.03379262481478
+            },
+            "rmse": {
+              "mean": 322.7312044524807,
+              "std": 135.9020692979342
+            },
+            "phm": {
+              "mean": 27490689.7039997,
+              "std": 47564643.90587441
+            },
+            "mae_last10pct": {
+              "mean": 121.36253781746655,
+              "std": 137.12564966139146
+            },
+            "bias": {
+              "mean": 39.088351184250584,
+              "std": 271.4614228164744
+            }
+          },
+          "lstm": {
+            "mae": {
+              "mean": 233.07242308692867,
+              "std": 53.91377948655323
+            },
+            "rmse": {
+              "mean": 303.33847427063085,
+              "std": 58.895705731098325
+            },
+            "phm": {
+              "mean": 2.1513503177671568e+21,
+              "std": 3.7262480552521645e+21
+            },
+            "mae_last10pct": {
+              "mean": 49.76221960850628,
+              "std": 42.4179133096872
+            },
+            "bias": {
+              "mean": -112.90458619338398,
+              "std": 177.1374362842994
+            }
+          }
+        },
+        "lstm_beats_all_baselines_mae": 2,
+        "lstm_beats_all_baselines_phm": 2
+      },
+      "leave_set_out": {
+        "n_test_trajectories": 4,
+        "methods": {
+          "const": {
+            "mae": {
+              "mean": 301.58493102867453,
+              "std": 49.338741387202
+            },
+            "rmse": {
+              "mean": 335.74483880689087,
+              "std": 53.79693396677252
+            },
+            "phm": {
+              "mean": 19229143998.27632,
+              "std": 33305854309.744804
+            },
+            "mae_last10pct": {
+              "mean": 379.44117769723675,
+              "std": 91.39983482560086
+            },
+            "bias": {
+              "mean": 105.86067362025481,
+              "std": 229.26089959657432
+            }
+          },
+          "hi_extrap": {
+            "mae": {
+              "mean": 330.9652771950398,
+              "std": 90.58525704526873
+            },
+            "rmse": {
+              "mean": 402.490244737058,
+              "std": 96.41050652286326
+            },
+            "phm": {
+              "mean": 3.1392231842150803e+25,
+              "std": 5.4372940513586726e+25
+            },
+            "mae_last10pct": {
+              "mean": 295.52500853438687,
+              "std": 70.3325425127964
+            },
+            "bias": {
+              "mean": 143.81825865848512,
+              "std": 200.98911368667842
+            }
+          },
+          "ridge": {
+            "mae": {
+              "mean": 260.0619255046697,
+              "std": 117.54973419718503
+            },
+            "rmse": {
+              "mean": 325.71314106132604,
+              "std": 134.84400759967733
+            },
+            "phm": {
+              "mean": 266474704614658.22,
+              "std": 461547663837485.7
+            },
+            "mae_last10pct": {
+              "mean": 144.7655247831186,
+              "std": 133.8728584172505
+            },
+            "bias": {
+              "mean": 49.30266710242553,
+              "std": 262.96653797162116
+            }
+          },
+          "lstm": {
+            "mae": {
+              "mean": 241.01416424854023,
+              "std": 60.43106263321436
+            },
+            "rmse": {
+              "mean": 331.68141754935584,
+              "std": 52.48874101726471
+            },
+            "phm": {
+              "mean": 2.1513503177837702e+21,
+              "std": 3.7262480552425727e+21
+            },
+            "mae_last10pct": {
+              "mean": 90.32058083200711,
+              "std": 71.78711422751057
+            },
+            "bias": {
+              "mean": -44.77056481637358,
+              "std": 187.5078173248358
+            }
+          }
+        },
+        "lstm_beats_all_baselines_mae": 2,
+        "lstm_beats_all_baselines_phm": 1
+      },
+      "loto_excl_set3": {
+        "n_test_trajectories": 3,
+        "methods": {
+          "const": {
+            "mae": {
+              "mean": 206.2041822876705,
+              "std": 21.12157862369797
+            },
+            "rmse": {
+              "mean": 243.61515232629503,
+              "std": 2.0550303551353593
+            },
+            "phm": {
+              "mean": 8743246.356796676,
+              "std": 12364785.697738435
+            },
+            "mae_last10pct": {
+              "mean": 233.5415063405153,
+              "std": 53.64566869345079
+            },
+            "bias": {
+              "mean": 30.317125536470304,
+              "std": 145.49250917541474
+            }
+          },
+          "hi_extrap": {
+            "mae": {
+              "mean": 265.0928936224938,
+              "std": 58.79662596063177
+            },
+            "rmse": {
+              "mean": 336.2843045186942,
+              "std": 57.517489394120545
+            },
+            "phm": {
+              "mean": 1.3114068457355405e+19,
+              "std": 1.854609347028123e+19
+            },
+            "mae_last10pct": {
+              "mean": 203.6130330240828,
+              "std": 70.8715550466845
+            },
+            "bias": {
+              "mean": 150.05315203347908,
+              "std": 138.62088073808425
+            }
+          },
+          "ridge": {
+            "mae": {
+              "mean": 331.39366658759656,
+              "std": 75.4350730971185
+            },
+            "rmse": {
+              "mean": 386.33556791417317,
+              "std": 51.16082225035096
+            },
+            "phm": {
+              "mean": 6.475110087596578e+18,
+              "std": 9.157188503737921e+18
+            },
+            "mae_last10pct": {
+              "mean": 104.33934159325223,
+              "std": 74.43144603217094
+            },
+            "bias": {
+              "mean": -33.93213435659525,
+              "std": 333.7575923215278
+            }
+          },
+          "lstm": {
+            "mae": {
+              "mean": 323.1847093405279,
+              "std": 97.00415955351102
+            },
+            "rmse": {
+              "mean": 402.121757923044,
+              "std": 94.13194367039246
+            },
+            "phm": {
+              "mean": 4.553025750734888e+19,
+              "std": 6.4389507665232224e+19
+            },
+            "mae_last10pct": {
+              "mean": 20.851842233704506,
+              "std": 3.514905167297339
+            },
+            "bias": {
+              "mean": -16.492924659635303,
+              "std": 331.00792248395214
+            }
+          }
+        },
+        "lstm_beats_all_baselines_mae": 0,
+        "lstm_beats_all_baselines_phm": 0
+      }
+    },
+    "evaluation_notes": [
+      "Dievaluasi leave-one-trajectory-out pada 4 lintasan IMS, 3 seed; MAE 233.1 jam, std ANTAR-LINTASAN 53.9 jam.",
+      "Angka evaluasi berasal dari model per-fold (rata-rata atas seed), BUKAN dari artefak final ini (artefak: dilatih pada semua lintasan, seed 11).",
+      "Skema loto: LSTM mengalahkan semua baseline pada 2/4 lintasan (MAE); MAE LSTM 233.1 vs konstan 292.5, Ridge 261.3 jam; MAE 10% umur terakhir LSTM 49.8 vs Ridge 121.4 jam.",
+      "Skema leave_set_out: LSTM mengalahkan semua baseline pada 2/4 lintasan (MAE); MAE LSTM 241.0 vs konstan 301.6, Ridge 260.1 jam; MAE 10% umur terakhir LSTM 90.3 vs Ridge 144.8 jam.",
+      "Skema loto_excl_set3: LSTM mengalahkan semua baseline pada 0/3 lintasan (MAE); MAE LSTM 323.2 vs konstan 206.2, Ridge 331.4 jam; MAE 10% umur terakhir LSTM 20.9 vs Ridge 104.3 jam.",
+      "Bias per lintasan uji (jam, + = terlalu optimis): IMS-S1-B3=-285.5, IMS-S1-B4=-150.7, IMS-S2-B1=+182.2, IMS-S3-B3=-197.6.",
+      "Pita kepercayaan = \u00b1 RMSE rata-rata LOTO (303.3 jam): proksi sederhana, BUKAN interval Bayesian; lebih lebar dari umur lintasan terpendek (163.8 jam).",
+      "Skor PHM adalah rata-rata exp() sehingga dapat meledak untuk prediksi sangat optimis; baca bersama MAE dan bias.",
+      "Jalur severity RUL (apps.alerting) belum divalidasi dengan prediksi RUL nyata."
+    ],
+    "supersedes": null
   }
 ]
