@@ -68,6 +68,7 @@ services:
       - ./backend:/app
       - raw-waveforms:${RAW_WAVEFORM_STORAGE_PATH}
       - /mnt/c/libursem4/PredictMaint/dataset/CWRU_48k_load_1_CNN_data/raw:/dataset/cwru_raw:ro
+      - "/mnt/c/libursem4/PredictMaint/dataset/IMS Bearing Data:/dataset/ims:ro"
     depends_on:
       postgres:
         condition: service_healthy
