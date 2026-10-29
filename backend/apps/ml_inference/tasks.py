@@ -219,6 +219,8 @@ def run_inference(bearing_id: str, window_id: str, captured_at: str, features: d
         entry["model_version"], prediction.id,
     )
 
+    _enqueue_rul_inference(bearing_id=bearing_id, window_id=window_id, captured_at=captured_at)
+
     return {
         "status": "classified",
         "bearing_id": bearing_id,
@@ -230,3 +232,28 @@ def run_inference(bearing_id: str, window_id: str, captured_at: str, features: d
         "model_version": entry["model_version"],
         "prediction_id": str(prediction.id),
     }
+
+
+def _enqueue_rul_inference(bearing_id, window_id, captured_at):
+    """
+    Sesi C: enqueue RUL inference untuk window yang baru diklasifikasi. Kegagalan
+    enqueue TIDAK boleh mengganggu klasifikasi (try/except + log).
+    """
+    try:
+        current_app.send_task(
+            "apps.ml_inference.tasks.run_rul_inference",
+            kwargs={"bearing_id": str(bearing_id), "window_id": str(window_id), "captured_at": captured_at},
+            queue="ml_inference",
+        )
+    except Exception:
+        logger.exception("run_inference: gagal enqueue run_rul_inference window %s", window_id)
+
+
+@shared_task(name="apps.ml_inference.tasks.run_rul_inference")
+def run_rul_inference(bearing_id: str, window_id: str, captured_at: str):
+    """
+    RUL online (Sesi C). Import LAZY: autodiscover Celery mengimpor tasks.py di
+    SEMUA worker; torch hanya boleh termuat di worker ml_inference saat task jalan.
+    """
+    from apps.ml_inference import rul_inference
+    return rul_inference.run(bearing_id=bearing_id, window_id=window_id, captured_at=captured_at)
