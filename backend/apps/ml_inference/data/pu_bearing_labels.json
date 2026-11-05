@@ -1,0 +1,643 @@
+{
+ "codes": {
+  "K001": {
+   "code": "K001",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": ">50",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K001/K001.pdf",
+   "source_pdf_sha256": "b6ef87e2fc60c7fdd50b6a8762c8a099d16d5242f897c60d5425c0e69478348a"
+  },
+  "K002": {
+   "code": "K002",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": "19",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K002/K002.pdf",
+   "source_pdf_sha256": "118e2c0ba5ed42f867896762287beeb7233580ca5061aeef5427a0595bde81dc"
+  },
+  "K003": {
+   "code": "K003",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": "1",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K003/K003.pdf",
+   "source_pdf_sha256": "b68b8ee1fde1f261a33afb32d5f63c6b725d10df0460d26a474f27a304bad6e5"
+  },
+  "K004": {
+   "code": "K004",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": "5",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K004/K004.pdf",
+   "source_pdf_sha256": "12e2200935856df7a291dcf56fde983c52b47183a72ed19f6236909e0133f634"
+  },
+  "K005": {
+   "code": "K005",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": "10",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K005/K005.pdf",
+   "source_pdf_sha256": "73a5b793e7b09380e92718665705a7e756bc0d5d1cad0df829f5bbe7e6ee62d8"
+  },
+  "K006": {
+   "code": "K006",
+   "components": [],
+   "damage_method": null,
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "HEALTHY",
+   "lifetime": "16",
+   "mode": null,
+   "n_damages": null,
+   "origin": "healthy",
+   "source_pdf": "K006/K006.pdf",
+   "source_pdf_sha256": "157e355b31baec8063691aa17b291bb81969917d10e4beea0d76f11eb3c6ed0b"
+  },
+  "KA01": {
+   "code": "KA01",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "EDM machining",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA01/KA01.pdf",
+   "source_pdf_sha256": "f21f0ffbda26a1c54a32c338e298dca834be367f9bc3b26f7295eeb75d417111"
+  },
+  "KA03": {
+   "code": "KA03",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA03/KA03.pdf",
+   "source_pdf_sha256": "5a6e28873a8009e7a353795bd35dbdf5832619a6a04edddf97a9a8c359eb5224"
+  },
+  "KA04": {
+   "code": "KA04",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "OUTER_RACE",
+   "lifetime": "12:01",
+   "mode": "fatigue",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KA04/KA04.pdf",
+   "source_pdf_sha256": "3f66eb5cb2df479c9f3cb16dd07e13bb8f662dab2289d445359a8cc58f824913"
+  },
+  "KA05": {
+   "code": "KA05",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA05/KA05.pdf",
+   "source_pdf_sha256": "23e4bd7631e36adf1d27c7dc6b450efaf3830afd1940327e27b8022b3f31ef16"
+  },
+  "KA06": {
+   "code": "KA06",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA06/KA06.pdf",
+   "source_pdf_sha256": "029aa739b575e4464ec47dac50eef3abf3ff0cc5f45eb6131ea455bbd9b9539c"
+  },
+  "KA07": {
+   "code": "KA07",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "drilled",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA07/KA07.pdf",
+   "source_pdf_sha256": "34bd7db344ce7105366bc6c5737f89ca36006e5b0dd33b177675e4ec6e70dbcd"
+  },
+  "KA08": {
+   "code": "KA08",
+   "components": [
+    "AR"
+   ],
+   "damage_method": "drilled",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "MIXED",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA08/KA08.pdf",
+   "source_pdf_sha256": "b89d9630ce74da45d1aa07e05f8b94f5504975041e61eaf8325f5f1bbdd306b7"
+  },
+  "KA09": {
+   "code": "KA09",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "drilled",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KA09/KA09.pdf",
+   "source_pdf_sha256": "b0c0f2945f6e413746e91ddcfb8b8f4c72d5f0363ebbb1fa05cde66153061aee"
+  },
+  "KA15": {
+   "code": "KA15",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "OUTER_RACE",
+   "lifetime": "6:01",
+   "mode": "plastic deformation",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KA15/KA15.pdf",
+   "source_pdf_sha256": "6954e6549fed0b5f6aa9b88d13ec7ca7a5197ffa04235ed6799843d196cfd6d8"
+  },
+  "KA16": {
+   "code": "KA16",
+   "components": [
+    "OR",
+    "OR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": "9:01",
+   "mode": "fatigue fatigue",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KA16/KA16.pdf",
+   "source_pdf_sha256": "a32c7a7a5e8234728e3faf695981f13d32dfc2068ae8d52ea436c79d202161e6"
+  },
+  "KA22": {
+   "code": "KA22",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": "14:01",
+   "mode": "fatigue",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KA22/KA22.pdf",
+   "source_pdf_sha256": "629b287d6a206174e806afaa185d7f9d696e89cbf19c4aca0bfd59fb9a5ecc52"
+  },
+  "KA30": {
+   "code": "KA30",
+   "components": [
+    "OR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "OUTER_RACE",
+   "lifetime": "21:01",
+   "mode": "plastic deformation",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KA30/KA30.pdf",
+   "source_pdf_sha256": "cdf2204bf71188f365bac1d2e7932dc8ccdba951743ee240846fa234f76310d8"
+  },
+  "KB23": {
+   "code": "KB23",
+   "components": [
+    "IR",
+    "IR",
+    "OR"
+   ],
+   "damage_method": "lifetime test lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "MIXED",
+   "lifetime": "21:01",
+   "mode": "fatigue fatigue fatigue",
+   "n_damages": 3,
+   "origin": "real",
+   "source_pdf": "KB23/KB23.pdf",
+   "source_pdf_sha256": "3cd0dccc39376adc0a1c32662b68d13ed77726fd7648e148c7ac9e188f3c103c"
+  },
+  "KB24": {
+   "code": "KB24",
+   "components": [
+    "IR",
+    "OR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "MIXED",
+   "lifetime": "15:01",
+   "mode": "fatigue plastic deformation",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KB24/KB24.pdf",
+   "source_pdf_sha256": "9ae70efbec7cc14a23a2501462799f59d3c7a76d9f8bf58b39f8a7bf5019f0dc"
+  },
+  "KB27": {
+   "code": "KB27",
+   "components": [
+    "OR",
+    "IR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "MIXED",
+   "lifetime": "21:01",
+   "mode": "plastic deformation plastic deformation",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KB27/KB27.pdf",
+   "source_pdf_sha256": "76329cae4521be08eb345d883a00cf55a58532c0e3960205f3e051573653a358"
+  },
+  "KI01": {
+   "code": "KI01",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "n/a",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KI01/KI01.pdf",
+   "source_pdf_sha256": "ccc94de46dc35de11f3ede602a68b41f1a692900a05a80cbde609a98482f5905"
+  },
+  "KI03": {
+   "code": "KI03",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KI03/KI03.pdf",
+   "source_pdf_sha256": "9faa34f64d9ba3599cdaf6093f1b8d91fe55ac43c30d081acaad6dde73980c5e"
+  },
+  "KI04": {
+   "code": "KI04",
+   "components": [
+    "IR",
+    "OR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "MIXED",
+   "lifetime": "12:01",
+   "mode": "fatigue plastic deformation",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KI04/KI04.pdf",
+   "source_pdf_sha256": "89d141542651a64c803c0f989905d2b22ad1a79448ec3485299656b084d5297a"
+  },
+  "KI05": {
+   "code": "KI05",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KI05/KI05.pdf",
+   "source_pdf_sha256": "6624cc0cdd923a1fd7ce4eac110fea819ce14eece7088e853244b21c90631d4b"
+  },
+  "KI07": {
+   "code": "KI07",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KI07/KI07.pdf",
+   "source_pdf_sha256": "f2cb96109dce1e5a9f642d83c052e3f9a78560b72b5db3f18177cc011880f5a1"
+  },
+  "KI08": {
+   "code": "KI08",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "electric engraver",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": null,
+   "mode": "artificial",
+   "n_damages": 1,
+   "origin": "artificial",
+   "source_pdf": "KI08/KI08.pdf",
+   "source_pdf_sha256": "6f5502ea5642ad72d8823492147d49e4647c26c8f06bd19dee3385bd14d27668"
+  },
+  "KI14": {
+   "code": "KI14",
+   "components": [
+    "IR",
+    "OR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "MIXED",
+   "lifetime": "21:01",
+   "mode": "fatigue plastic deformation",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KI14/KI14.pdf",
+   "source_pdf_sha256": "61c6da9af925d5a637073832414ea9c8dfe6d6b8a43f9d3d87129afb8980a0b2"
+  },
+  "KI16": {
+   "code": "KI16",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "INNER_RACE",
+   "lifetime": "3:01",
+   "mode": "fatigue",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KI16/KI16.pdf",
+   "source_pdf_sha256": "ca3588d7d5583af88f6969c94f8f40f9a6f2df9bb2b1920464466d95502755dd"
+  },
+  "KI17": {
+   "code": "KI17",
+   "components": [
+    "IR",
+    "IR"
+   ],
+   "damage_method": "lifetime test lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": "19:01",
+   "mode": "fatigue fatigue",
+   "n_damages": 2,
+   "origin": "real",
+   "source_pdf": "KI17/KI17.pdf",
+   "source_pdf_sha256": "7b4efe0291ddc57c4adfbc0d38829b2cb6e2c45e74cb4e05b00773f0a03eebfd"
+  },
+  "KI18": {
+   "code": "KI18",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 29.05
+   },
+   "label": "INNER_RACE",
+   "lifetime": "7:01",
+   "mode": "fatigue",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KI18/KI18.pdf",
+   "source_pdf_sha256": "39e36b4d110a3fe25ea10bc97be2e6c4a6d688923554e621f4e02d740c8d1ab2"
+  },
+  "KI21": {
+   "code": "KI21",
+   "components": [
+    "IR"
+   ],
+   "damage_method": "lifetime test",
+   "geometry": {
+    "ball_diameter_mm": 6.75,
+    "contact_angle_deg": 0.0,
+    "num_balls": 8,
+    "pitch_diameter_mm": 28.55
+   },
+   "label": "INNER_RACE",
+   "lifetime": "20:01",
+   "mode": "fatigue",
+   "n_damages": 1,
+   "origin": "real",
+   "source_pdf": "KI21/KI21.pdf",
+   "source_pdf_sha256": "8a674661919f3e2bd7a86f7411c4bb6f57972249deca0ab1df0430db6d8a6d91"
+  }
+ },
+ "generated_by": "tools/build_pu_labels.py",
+ "label_rules": "komponen {OR}=OUTER_RACE, {IR}=INNER_RACE, {}=HEALTHY (K00n), lainnya=MIXED",
+ "source": "PDF dokumentasi PU per kode bearing (Paderborn, KAt-DataCenter)"
+}
