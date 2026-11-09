@@ -54,14 +54,43 @@ def append_entry(entry: dict) -> None:
     os.replace(tmp_path, REGISTRY_PATH)
 
 
+def _is_deployable(entry: dict) -> bool:
+    """Entri tanpa field `deployment` dianggap DEPLOYED (kompatibel dengan entri lama)."""
+    return entry.get("deployment", "DEPLOYED") != "NOT_DEPLOYED"
+
+
 def get_latest_entry(model_type: str):
     """
     Entry terbaru (by eval_date) untuk model_type tertentu
-    ("CLASSIFICATION" atau "RUL"). Dipakai worker inference saat startup
-    (architecture.md §Model Loading — load sekali, bukan per-task) untuk
-    memilih artifact_path mana yang di-load.
+    ("CLASSIFICATION" atau "RUL") yang BOLEH disajikan: entri dengan
+    deployment == "NOT_DEPLOYED" dilewati (terdaftar untuk jejak evaluasi,
+    tidak dipilih worker inference). Dipakai worker inference saat startup
+    (architecture.md section Model Loading) untuk memilih artifact_path.
     """
-    candidates = [e for e in load_registry() if e.get("model_type") == model_type]
+    candidates = [e for e in load_registry()
+                  if e.get("model_type") == model_type and _is_deployable(e)]
     if not candidates:
         return None
     return max(candidates, key=lambda e: e["eval_date"])
+
+
+def update_entry_fields(model_version: str, fields: dict) -> None:
+    """
+    Isi field pada SATU entri yang sudah ada. Hanya boleh mengisi field yang
+    belum ada / masih None (registry append-only untuk nilai yang sudah
+    tercatat); menolak versi yang tidak ada atau ambigu (duplikat).
+    Atomik seperti append_entry.
+    """
+    registry = load_registry()
+    matches = [e for e in registry if e.get("model_version") == model_version]
+    if len(matches) != 1:
+        raise ValueError("entri %s harus tepat satu, ditemukan %d" % (model_version, len(matches)))
+    entry = matches[0]
+    taken = [k for k in fields if entry.get(k) is not None]
+    if taken:
+        raise ValueError("field sudah terisi pada %s, tidak ditimpa: %s" % (model_version, taken))
+    entry.update(fields)
+    tmp_path = REGISTRY_PATH.with_suffix(".json.tmp")
+    with open(tmp_path, "w") as f:
+        json.dump(registry, f, indent=2)
+    os.replace(tmp_path, REGISTRY_PATH)

@@ -545,9 +545,108 @@
         ]
       }
     ],
-    "cross_dataset_pu_accuracy": null,
+    "cross_dataset_pu_accuracy": 0.18237018425460635,
     "trained_at": "2026-09-13T19:20:12.025543+00:00",
-    "supersedes": "rf-baseline-cwru-v1.0"
+    "supersedes": "rf-baseline-cwru-v1.0",
+    "cross_dataset_pu": {
+      "headline": "akurasi argmax 3 kelas pada himpunan NYATA (+healthy); prediksi BALL dihitung salah",
+      "protocol": "zero-shot (tanpa retraining), 26 kode PU, jendela 1,0 s, rpm_sane saja",
+      "source_file": "rf_zero_shot_rf-baseline-cwru-v1.1.json",
+      "subsets": {
+        "SEMUA": {
+          "n": 8270,
+          "files": 520,
+          "acc": 0.26094316807738815,
+          "acc_thr": 0.15912938331318016,
+          "macro_f1": 0.3191873694995076,
+          "majority": 0.4222490931076179,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.24054982817869416,
+            "INNER_RACE": 0.16643356643356644
+          }
+        },
+        "BUATAN (+healthy)": {
+          "n": 5412,
+          "files": 340,
+          "acc": 0.27254249815225423,
+          "acc_thr": 0.18144863266814487,
+          "macro_f1": 0.33599920531053856,
+          "majority": 0.35439763488543974,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.389092815941269,
+            "INNER_RACE": 0.15122873345935728
+          }
+        },
+        "NYATA (+healthy)": {
+          "n": 4776,
+          "files": 300,
+          "acc": 0.18237018425460635,
+          "acc_thr": 0.06993299832495813,
+          "macro_f1": 0.272540605279566,
+          "majority": 0.40159128978224456,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.061829652996845424,
+            "INNER_RACE": 0.18538884524744698
+          }
+        },
+        "BUATAN N09": {
+          "n": 1351,
+          "files": 340,
+          "acc": 0.29533678756476683,
+          "acc_thr": 0.03478904515173945,
+          "macro_f1": 0.34537071381407336,
+          "majority": 0.3545521835677276,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.09853249475890985,
+            "INNER_RACE": 0.0
+          }
+        },
+        "NYATA N09": {
+          "n": 1192,
+          "files": 299,
+          "acc": 0.19379194630872484,
+          "acc_thr": 0.0025167785234899327,
+          "macro_f1": 0.20659855362683724,
+          "majority": 0.40184563758389263,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.007614213197969543,
+            "INNER_RACE": 0.0
+          }
+        },
+        "BUATAN N15": {
+          "n": 4061,
+          "files": 340,
+          "acc": 0.2649593696133957,
+          "acc_thr": 0.23023885742427974,
+          "macro_f1": 0.3114982866850956,
+          "majority": 0.35434622014282197,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.486013986013986,
+            "INNER_RACE": 0.20134228187919462
+          }
+        },
+        "NYATA N15": {
+          "n": 3584,
+          "files": 300,
+          "acc": 0.17857142857142858,
+          "acc_thr": 0.09235491071428571,
+          "macro_f1": 0.26565150156873524,
+          "majority": 0.40150669642857145,
+          "recall": {
+            "HEALTHY": 0.0,
+            "OUTER_RACE": 0.07976490344248531,
+            "INNER_RACE": 0.24737945492662475
+          }
+        }
+      }
+    },
+    "cross_dataset_pu_note": "Akurasi NYATA 0.1824 vs kelas mayoritas 0.4016; BUATAN 0.2725 vs 0.3544. Bukan bukti generalisasi: di bawah kelas mayoritas. Ambang keyakinan 0,6 memetakan sebagian jendela ke UNKNOWN (acc_thr)."
   },
   {
     "model_version": "lstm-rul-ims-v1.0",
@@ -992,5 +1091,521 @@
       "Jalur severity RUL (apps.alerting) belum divalidasi dengan prediksi RUL nyata."
     ],
     "supersedes": null
+  },
+  {
+    "model_version": "cnn1d-cwru-v1.0",
+    "model_type": "CLASSIFICATION",
+    "training_dataset": "CWRU",
+    "training_dataset_version_hash": "57623908514597c43bee1398c4c59992fe21da3aa5d3b0a97d96bf9105d1524d",
+    "eval_accuracy": 0.9938461538461538,
+    "eval_accuracy_std": 0.012307692307692308,
+    "eval_macro_f1": 0.9939271255060728,
+    "eval_protocol": "CV per-file 5 fold (fold identik dengan rf-baseline), seed model 42; pelengkap: leave-instance-out (G4b)",
+    "eval_date": "2026-11-09",
+    "trained_at": "2026-11-06T07:08:41.154605+00:00",
+    "artifact_path": "/app/ml_artifacts/cnn1d-cwru-v1.0/model.pt",
+    "artifact_format": "torch_state_dict (model.pt; payload: state_dict, classes, config)",
+    "label_classes": [
+      "BALL",
+      "HEALTHY",
+      "INNER_RACE",
+      "OUTER_RACE"
+    ],
+    "input_spec": "jendela 1,0 s -> pu_dataset.to_cnn_window -> 12000 sampel -> z-score per jendela (eps 1e-8)",
+    "hyperparameters": {
+      "input": "jendela 1,0 s -> pu_dataset.to_cnn_window -> 12000 sampel -> z-score per jendela (eps 1e-8)",
+      "augment": "overlap 75% (hop 0,25 s) hanya pada file latih; jendela uji non-overlap (= 342 jendela RF)",
+      "arch": "Conv(1,16,k64,s16)+Conv(16,32,k3,p1)+Conv(32,64,k3,p1)+Conv(64,64,k3,p1); tiap blok BN+ReLU+MaxPool2; GAP; Dropout0.5; Linear(64,K)",
+      "optimizer": "Adam lr=1e-3 weight_decay=1e-4",
+      "batch": 64,
+      "epochs": 30,
+      "loss": "CrossEntropy, bobot kelas seimbang (dari jendela latih)",
+      "cv": "StratifiedGroupKFold(5, shuffle=True, random_state=42) pada urutan jendela RF; seed model 42",
+      "pu_seeds": [
+        42,
+        43,
+        44
+      ],
+      "threshold": 0.6
+    },
+    "config_hash": "5be663c890d5644a7c163feb267d58e836903b08f9e97b05d25b5ae9797d9942",
+    "cv_fold_details": [
+      {
+        "fold": 1,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 1004,
+        "n_test": 67,
+        "test_groups": [
+          "B014_2_191.mat",
+          "B021_2_228.mat",
+          "IR014_1_175.mat",
+          "IR021_3_217.mat",
+          "OR007_6_2_137.mat",
+          "OR021_6_2_240.mat",
+          "Time_Normal_2_099.mat"
+        ]
+      },
+      {
+        "fold": 2,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 998,
+        "n_test": 70,
+        "test_groups": [
+          "B014_1_190.mat",
+          "B014_3_192.mat",
+          "IR007_0_109.mat",
+          "IR021_0_213.mat",
+          "IR021_2_215.mat",
+          "OR007_6_1_136.mat",
+          "OR021_6_3_241.mat",
+          "Time_Normal_1_098.mat"
+        ]
+      },
+      {
+        "fold": 3,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 998,
+        "n_test": 70,
+        "test_groups": [
+          "B007_2_124.mat",
+          "B021_1_227.mat",
+          "IR007_1_110.mat",
+          "IR014_3_177.mat",
+          "OR014_6_1_202.mat",
+          "OR021_6_0_238.mat",
+          "OR021_6_1_239.mat",
+          "Time_Normal_0_097.mat"
+        ]
+      },
+      {
+        "fold": 4,
+        "accuracy": 1.0,
+        "macro_f1": 1.0,
+        "n_train": 998,
+        "n_test": 70,
+        "test_groups": [
+          "B014_0_189.mat",
+          "B021_0_226.mat",
+          "B021_3_229.mat",
+          "IR007_3_112.mat",
+          "IR021_1_214.mat",
+          "OR014_6_2_203.mat",
+          "OR014_6_3_204.mat",
+          "Time_Normal_3_100.mat"
+        ]
+      },
+      {
+        "fold": 5,
+        "accuracy": 0.9692307692307692,
+        "macro_f1": 0.9696356275303644,
+        "n_train": 1018,
+        "n_test": 65,
+        "test_groups": [
+          "B007_0_122.mat",
+          "B007_1_123.mat",
+          "B007_3_125.mat",
+          "IR007_2_111.mat",
+          "IR014_2_176.mat",
+          "OR007_6_0_135.mat",
+          "OR007_6_3_138.mat",
+          "OR014_6_0_201.mat"
+        ]
+      }
+    ],
+    "cv_confusion": [
+      [
+        105,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        35,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        97,
+        0
+      ],
+      [
+        2,
+        0,
+        0,
+        103
+      ]
+    ],
+    "cv_confusion_order": [
+      "BALL",
+      "HEALTHY",
+      "INNER_RACE",
+      "OUTER_RACE"
+    ],
+    "eval_leave_instance_out": {
+      "n_instances": 9,
+      "n_windows": 307,
+      "protocol": "leave-one-fault-instance-out; seluruh file satu instance (semua beban) ditahan; HEALTHY (satu bearing) tidak bisa diuji bebas-kebocoran dan tetap di training",
+      "per_instance": [
+        {
+          "instance": "B007",
+          "class": "BALL",
+          "n": 35,
+          "cnn_recall": 0.0,
+          "rf_recall": 0.05714285714285714,
+          "cnn_pred": {
+            "OUTER_RACE": 35
+          },
+          "rf_pred": {
+            "OUTER_RACE": 33,
+            "BALL": 2
+          }
+        },
+        {
+          "instance": "B014",
+          "class": "BALL",
+          "n": 35,
+          "cnn_recall": 0.0,
+          "rf_recall": 0.9428571428571428,
+          "cnn_pred": {
+            "OUTER_RACE": 32,
+            "HEALTHY": 3
+          },
+          "rf_pred": {
+            "OUTER_RACE": 2,
+            "BALL": 33
+          }
+        },
+        {
+          "instance": "B021",
+          "class": "BALL",
+          "n": 35,
+          "cnn_recall": 0.17142857142857143,
+          "rf_recall": 0.9142857142857143,
+          "cnn_pred": {
+            "INNER_RACE": 28,
+            "OUTER_RACE": 1,
+            "BALL": 6
+          },
+          "rf_pred": {
+            "BALL": 32,
+            "INNER_RACE": 3
+          }
+        },
+        {
+          "instance": "IR007",
+          "class": "INNER_RACE",
+          "n": 35,
+          "cnn_recall": 0.0,
+          "rf_recall": 1.0,
+          "cnn_pred": {
+            "HEALTHY": 35
+          },
+          "rf_pred": {
+            "INNER_RACE": 35
+          }
+        },
+        {
+          "instance": "IR014",
+          "class": "INNER_RACE",
+          "n": 27,
+          "cnn_recall": 0.5555555555555556,
+          "rf_recall": 0.9629629629629629,
+          "cnn_pred": {
+            "INNER_RACE": 15,
+            "BALL": 12
+          },
+          "rf_pred": {
+            "INNER_RACE": 26,
+            "BALL": 1
+          }
+        },
+        {
+          "instance": "IR021",
+          "class": "INNER_RACE",
+          "n": 35,
+          "cnn_recall": 1.0,
+          "rf_recall": 1.0,
+          "cnn_pred": {
+            "INNER_RACE": 35
+          },
+          "rf_pred": {
+            "INNER_RACE": 35
+          }
+        },
+        {
+          "instance": "OR007",
+          "class": "OUTER_RACE",
+          "n": 35,
+          "cnn_recall": 1.0,
+          "rf_recall": 1.0,
+          "cnn_pred": {
+            "OUTER_RACE": 35
+          },
+          "rf_pred": {
+            "OUTER_RACE": 35
+          }
+        },
+        {
+          "instance": "OR014",
+          "class": "OUTER_RACE",
+          "n": 35,
+          "cnn_recall": 0.0,
+          "rf_recall": 0.0,
+          "cnn_pred": {
+            "BALL": 35
+          },
+          "rf_pred": {
+            "BALL": 35
+          }
+        },
+        {
+          "instance": "OR021",
+          "class": "OUTER_RACE",
+          "n": 35,
+          "cnn_recall": 0.0,
+          "rf_recall": 0.5428571428571428,
+          "cnn_pred": {
+            "BALL": 34,
+            "INNER_RACE": 1
+          },
+          "rf_pred": {
+            "BALL": 16,
+            "OUTER_RACE": 19
+          }
+        }
+      ],
+      "cnn_accuracy": 0.2964169381107492,
+      "cnn_mean_recall_per_class": {
+        "BALL": 0.05714285714285714,
+        "INNER_RACE": 0.5185185185185185,
+        "OUTER_RACE": 0.3333333333333333
+      },
+      "rf_accuracy": 0.7068403908794788,
+      "rf_mean_recall_per_class": {
+        "BALL": 0.638095238095238,
+        "INNER_RACE": 0.9876543209876543,
+        "OUTER_RACE": 0.5142857142857142
+      }
+    },
+    "cross_dataset_pu_accuracy": 0.20030709101060862,
+    "cross_dataset_pu_accuracy_basis": "rata-rata 3 seed, himpunan NYATA (+healthy), argmax 3 kelas, BALL=salah",
+    "cross_dataset_pu": {
+      "seeds": [
+        "seed42",
+        "seed43",
+        "seed44"
+      ],
+      "per_seed": {
+        "seed42": {
+          "SEMUA": {
+            "n": 8270,
+            "acc": 0.29153567110036277,
+            "acc_thr": 0.271825876662636,
+            "macro_f1": 0.1769807189311928,
+            "mrecall": 0.27830232005489736,
+            "recall_argmax": [
+              0.0,
+              0.03665521191294387,
+              0.7982517482517483
+            ],
+            "majority": 0.4222490931076179
+          },
+          "BUATAN": {
+            "n": 5412,
+            "acc": 0.26847745750184776,
+            "acc_thr": 0.26367331855136733,
+            "macro_f1": 0.14303717201405805,
+            "mrecall": 0.30515274042602963,
+            "recall_argmax": [
+              0.0,
+              0.0005243838489774515,
+              0.9149338374291115
+            ],
+            "majority": 0.35439763488543974
+          },
+          "NYATA": {
+            "n": 4776,
+            "acc": 0.20058626465661641,
+            "acc_thr": 0.17190117252931322,
+            "macro_f1": 0.15459736315157072,
+            "mrecall": 0.2443049570345186,
+            "recall_argmax": [
+              0.0,
+              0.08012618296529968,
+              0.6527886881382561
+            ],
+            "majority": 0.40159128978224456
+          }
+        },
+        "seed43": {
+          "SEMUA": {
+            "n": 8270,
+            "acc": 0.22357920193470374,
+            "acc_thr": 0.15405078597339783,
+            "macro_f1": 0.16932431060768904,
+            "mrecall": 0.2114299665657932,
+            "recall_argmax": [
+              0.0036496350364963502,
+              0.06071019473081329,
+              0.5699300699300699
+            ],
+            "majority": 0.4222490931076179
+          },
+          "BUATAN": {
+            "n": 5412,
+            "acc": 0.1973392461197339,
+            "acc_thr": 0.1369179600886918,
+            "macro_f1": 0.13902326312571592,
+            "mrecall": 0.22198941477299425,
+            "recall_argmax": [
+              0.0036496350364963502,
+              0.03093864708966964,
+              0.6313799621928167
+            ],
+            "majority": 0.35439763488543974
+          },
+          "NYATA": {
+            "n": 4776,
+            "acc": 0.16499162479061977,
+            "acc_thr": 0.1115996649916248,
+            "macro_f1": 0.1546282291661246,
+            "mrecall": 0.1978341542926764,
+            "recall_argmax": [
+              0.0036496350364963502,
+              0.09652996845425868,
+              0.49332285938727416
+            ],
+            "majority": 0.40159128978224456
+          }
+        },
+        "seed44": {
+          "SEMUA": {
+            "n": 8270,
+            "acc": 0.3047158403869408,
+            "acc_thr": 0.2623941958887545,
+            "macro_f1": 0.21953386115290274,
+            "mrecall": 0.31002928657755957,
+            "recall_argmax": [
+              0.14963503649635038,
+              0.0014318442153493699,
+              0.779020979020979
+            ],
+            "majority": 0.4222490931076179
+          },
+          "BUATAN": {
+            "n": 5412,
+            "acc": 0.31097560975609756,
+            "acc_thr": 0.26496674057649666,
+            "macro_f1": 0.22802714233125254,
+            "mrecall": 0.34309405648387065,
+            "recall_argmax": [
+              0.14963503649635038,
+              0.0,
+              0.8796471329552615
+            ],
+            "majority": 0.35439763488543974
+          },
+          "NYATA": {
+            "n": 4776,
+            "acc": 0.23534338358458962,
+            "acc_thr": 0.18927973199329984,
+            "macro_f1": 0.18348625520210682,
+            "mrecall": 0.2687879482405123,
+            "recall_argmax": [
+              0.14963503649635038,
+              0.0031545741324921135,
+              0.6535742340926944
+            ],
+            "majority": 0.40159128978224456
+          }
+        }
+      },
+      "recall_order": [
+        "HEALTHY",
+        "OUTER_RACE",
+        "INNER_RACE"
+      ],
+      "protocol": "zero-shot, 3 kelas (BALL=salah), 26 kode PU, HEALTHY dipakai bersama di buatan dan nyata",
+      "buatan_acc_mean": 0.2589307711258931,
+      "buatan_acc_std_across_seeds": 0.046880416669753816,
+      "buatan_majority": 0.35439763488543974,
+      "nyata_acc_mean": 0.20030709101060862,
+      "nyata_acc_std_across_seeds": 0.02872166365648872,
+      "nyata_majority": 0.40159128978224456,
+      "semua_acc_mean": 0.27327690447400244,
+      "semua_acc_std_across_seeds": 0.03555114104000203,
+      "semua_majority": 0.4222490931076179,
+      "diag_3class_seed42": {
+        "BUATAN": {
+          "acc": 0.2529563932002956,
+          "mrecall": 0.2847250101798314
+        },
+        "NYATA": {
+          "acc": 0.1574539363484087,
+          "mrecall": 0.19335366996992456
+        }
+      }
+    },
+    "n_training_windows_augmented": null,
+    "n_training_files": 39,
+    "deployment": "NOT_DEPLOYED",
+    "deployment_note": "Memenuhi syarat formal ml-pipeline.md section 4 (akurasi CV CWRU 0.9938 > 0.8622) tetapi TIDAK dideploy: jalur inference torch belum ada, dan hasil leave-instance-out serta PU tidak mendukung generalisasi. get_latest_entry('CLASSIFICATION') melewati entri NOT_DEPLOYED.",
+    "evaluation_notes": [
+      "CV per-file terkunci (StratifiedGroupKFold 5, fold identik dengan rf-baseline-cwru-v1.1): akurasi 0.9938 (std 0.0123); pembanding RF 0.8622.",
+      "CV per-file memisahkan FILE, bukan bearing fisik: file beban berbeda dari instance fault yang sama dapat berada di train dan test (ml-pipeline.md section 1.2 bertujuan mencegah ini). Angka CV ini bukan bukti generalisasi.",
+      "Leave-one-fault-instance-out (9 instance, 307 jendela fault; HEALTHY tidak diuji): CNN akurasi 0.2964 vs RF 0.7068.",
+      "Zero-shot PU (3 kelas, BALL=salah), 3 seed: akurasi NYATA 0.2003 (std antar-seed 0.0287), BUATAN 0.2589 (std 0.0469); kelas mayoritas NYATA 0.4016, BUATAN 0.3544 -> di bawah kelas mayoritas.",
+      "Perilaku di PU tidak stabil antar-seed: recall INNER_RACE (semua PU, argmax) berkisar 0.57-0.80.",
+      "Jalur inference torch (.pt) belum ada di apps.ml_inference.tasks (hanya joblib); model TIDAK dideploy."
+    ],
+    "supersedes": null,
+    "cross_dataset_pu_confidence_seed42": {
+      "model_seed": 42,
+      "per_true_label": {
+        "HEALTHY": {
+          "n": 1918,
+          "conf_ge_085": 0.9958289885297185,
+          "conf_060_085": 0.004171011470281543,
+          "conf_lt_060": 0.0,
+          "pred_ge_085": {
+            "INNER_RACE": 1.0
+          }
+        },
+        "OUTER_RACE": {
+          "n": 3492,
+          "conf_ge_085": 0.7574455899198167,
+          "conf_060_085": 0.09049255441008018,
+          "conf_lt_060": 0.15206185567010308,
+          "pred_ge_085": {
+            "BALL": 0.013232514177693762,
+            "HEALTHY": 0.030245746691871456,
+            "INNER_RACE": 0.9534971644612477,
+            "OUTER_RACE": 0.0030245746691871457
+          }
+        },
+        "INNER_RACE": {
+          "n": 2860,
+          "conf_ge_085": 0.670979020979021,
+          "conf_060_085": 0.21363636363636362,
+          "conf_lt_060": 0.11538461538461539,
+          "pred_ge_085": {
+            "BALL": 0.02501302761855133,
+            "INNER_RACE": 0.9671704012506513,
+            "OUTER_RACE": 0.007816571130797291
+          }
+        }
+      },
+      "pred_INNER_RACE_conf_ge_085": {
+        "n": 6288,
+        "precision": 0.2951653944020356,
+        "share_true_healthy": 0.3037531806615776
+      }
+    }
   }
 ]
