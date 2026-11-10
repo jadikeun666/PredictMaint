@@ -32,6 +32,7 @@ from apps.ml_inference import model_registry
 from apps.ml_inference.feature_extraction import engineer_features
 from apps.ml_inference.influx_client import write_prediction_ts
 from apps.ml_inference.persistence import save_classification_prediction
+from apps.ml_inference import provenance_guard
 
 logger = logging.getLogger(__name__)
 
@@ -188,6 +189,19 @@ def run_inference(bearing_id: str, window_id: str, captured_at: str, features: d
     else:
         fault_class = raw_predicted_class
 
+    # Sesi E: penjaga provenance (config/classification_provenance.py; flag mati = tanpa efek).
+    # Hanya mengubah fault_class -> "UNKNOWN" untuk prediksi fault berkeyakinan >= ambang pada
+    # bearing yang tidak tervalidasi untuk model_version ini. Keyakinan mentah TIDAK diubah.
+    provenance = provenance_guard.check(
+        bearing_id=bearing_id,
+        model_version=entry["model_version"],
+        raw_class=raw_predicted_class,
+        confidence=confidence,
+        threshold=CONFIDENCE_THRESHOLD,
+    )
+    if provenance.rejected:
+        fault_class = "UNKNOWN"
+
     prediction = save_classification_prediction(
         bearing_id=bearing_id,
         window_id=window_id,
@@ -229,6 +243,7 @@ def run_inference(bearing_id: str, window_id: str, captured_at: str, features: d
         "fault_class": fault_class,
         "confidence": confidence,
         "raw_predicted_class": raw_predicted_class,
+        "provenance_rejected": provenance.rejected,
         "model_version": entry["model_version"],
         "prediction_id": str(prediction.id),
     }
