@@ -19,8 +19,8 @@ def _check(raw="INNER_RACE", conf=0.95, mv=MV, lookup=None):
 
 
 class ProvenanceGuardUnitTests(unittest.TestCase):
-    def test_flag_default_is_off(self):
-        self.assertFalse(cfg.CLASSIFICATION_PROVENANCE_GUARD_ENABLED)
+    def test_flag_default_is_on(self):
+        self.assertTrue(cfg.CLASSIFICATION_PROVENANCE_GUARD_ENABLED)
 
     def test_disabled_never_rejects_and_never_looks_up(self):
         def boom(b):
