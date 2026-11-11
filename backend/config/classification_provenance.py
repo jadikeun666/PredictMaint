@@ -16,7 +16,7 @@ model yang menghasilkannya.
 - model_version yang TIDAK ada di sini diperlakukan belum tervalidasi (fail-closed) saat flag
   menyala: mendaftarkan/men-deploy classifier baru memerlukan penambahan entri di sini.
 """
-CLASSIFICATION_PROVENANCE_GUARD_ENABLED = False
+CLASSIFICATION_PROVENANCE_GUARD_ENABLED = True
 
 ALLOWED_BEARING_MODELS = {
     "rf-baseline-cwru-v1.1": ("SKF 6205-2RS JEM (drive end)",),
