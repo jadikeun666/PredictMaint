@@ -10,3 +10,6 @@ docs/
 docker-compose.yml.bak
 mosquitto/config/passwd
 backend/ml_artifacts/
+
+# core dump dari crash proses (Sesi F)
+core.*
