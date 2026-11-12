@@ -45,6 +45,12 @@ def append_entry(entry: dict) -> None:
         )
 
     registry = load_registry()
+    if any(e.get("model_version") == entry["model_version"] for e in registry):
+        raise ValueError(
+            "model_version %s sudah ada di registry; naikkan versi atau gunakan "
+            "update_entry_fields untuk mengisi field kosong (artefak tidak boleh ditimpa)"
+            % entry["model_version"]
+        )
     registry.append(entry)
 
     REGISTRY_PATH.parent.mkdir(parents=True, exist_ok=True)
@@ -52,6 +58,11 @@ def append_entry(entry: dict) -> None:
     with open(tmp_path, "w") as f:
         json.dump(registry, f, indent=2)
     os.replace(tmp_path, REGISTRY_PATH)
+
+
+def has_version(model_version: str) -> bool:
+    """True bila model_version sudah terdaftar. Dipakai pemanggil untuk menolak SEBELUM menulis artefak."""
+    return any(e.get("model_version") == model_version for e in load_registry())
 
 
 def _is_deployable(entry: dict) -> bool:

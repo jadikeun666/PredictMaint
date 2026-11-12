@@ -213,6 +213,11 @@ class Command(BaseCommand):
         final_clf.fit(X, y)
 
         model_version = "rf-baseline-cwru-v1.1"
+        # Sesi F: tolak versi yang sudah terdaftar SEBELUM artefak ditulis (menimpa model.joblib
+        # membuat entri lama merujuk artefak yang sudah berganti).
+        if model_registry.has_version(model_version):
+            from django.core.management.base import CommandError
+            raise CommandError("model_version %s sudah ada di registry; naikkan versi, artefak tidak ditimpa" % model_version)
         artifact_dir = ARTIFACT_DIR / model_version
         artifact_dir.mkdir(parents=True, exist_ok=True)
         artifact_path = artifact_dir / "model.joblib"
