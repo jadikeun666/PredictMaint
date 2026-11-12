@@ -203,9 +203,12 @@ class Command(BaseCommand):
         arrival_time = timezone.now()
         self._last_status_seen[sensor.id] = (sensor, arrival_time)
 
-        resolved_count = resolve_sensor_offline_alert(sensor)
-        if resolved_count:
-            logger.info(f"[SENSOR_OFFLINE] sensor_id={sensor.id} kembali online — alert auto-resolved")
+        # Sesi F: hanya heartbeat ONLINE yang berarti "kembali online". Pesan OFFLINE (LWT atau
+        # retained sisa shutdown) tetap memperbarui timer di atas, tetapi tidak me-resolve alert.
+        if payload["status"] == "ONLINE":
+            resolved_count = resolve_sensor_offline_alert(sensor)
+            if resolved_count:
+                logger.info(f"[SENSOR_OFFLINE] sensor_id={sensor.id} kembali online — alert auto-resolved")
 
         logger.info(
             f"[OK] status heartbeat valid — topic={topic} sensor_id={sensor.id} "
